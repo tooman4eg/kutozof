@@ -14,7 +14,6 @@ public class Shot {
 	private int velocity;
 	private int damage; // - убойная сила
 	private int breach;
-//	public Image img_c = new ImageIcon("res/bullet.gif").getImage();
 	public Image img_c = new ImageIcon("res/bullet2.png").getImage();
 
 	public Shot(int x, int y, Direction dir, int velocity, int damage, int breach )

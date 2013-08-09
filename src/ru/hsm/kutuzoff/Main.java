@@ -14,7 +14,7 @@ public class Main {
 
 		JFrame f = new JFrame("-=1812 WAR=-");
 		f.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		f.setSize(1200,1000);
+		f.setSize(1024,768);
 		f.add(new Map ());
 		f.setVisible(true);
 	}

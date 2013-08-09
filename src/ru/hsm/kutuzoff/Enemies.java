@@ -13,7 +13,7 @@ import troops.Otryad;
 public class Enemies extends Otryad {
 
 	
-	private static int changeDirectionDelay = 1000; // m seconds
+	private static int changeDirectionDelay = 3000; // m seconds
 	private static Date startTime;
 	private static Date endTime;
 
@@ -31,6 +31,12 @@ public class Enemies extends Otryad {
 		reloadTimer();
 	}
 
+	@Override
+	public Rectangle getRect() {
+		return new Rectangle(getX()-img.getWidth(null)/2, getY()-img.getHeight(null)/2, img.getWidth(null), img.getHeight(null));
+	}
+
+	
 	@Override	
 	public void move(int MAX_BOTTOM_POSITION, int MAX_TOP_POSITION,
 			int MAX_RIGHT_POSITION, int MAX_LEFT_POSITION) {
