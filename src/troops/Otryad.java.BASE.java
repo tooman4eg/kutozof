@@ -14,8 +14,6 @@ import javax.swing.ImageIcon;
 import ru.hsm.kutuzoff.Direction;
 import ru.hsm.kutuzoff.Map;
 import ru.hsm.kutuzoff.Shot;
-import weapons.DefaultGun;
-import weapons.Weapon;
 
 public class Otryad extends Detachment implements Runnable {
 
@@ -25,45 +23,39 @@ public class Otryad extends Detachment implements Runnable {
 	Image img_r = new ImageIcon("res/playerl.png").getImage();
 
 	public Image img = img_c;
-	public final int BAR_WIDTH=50;
+
 	public int layer1 = 0;
 	public int layer2 = 1600;
 	private int x; // дефолтовые координаты положения отряда
 	private int y;// дефолтовые координаты положения отряда
 
-	public static final int MAX_V = 2; // playerOtryad.maxVelocity();
+	public static final int MAX_V = 10; // playerOtryad.maxVelocity();
 	protected final int MAX_HEALTH_POINTS = 100;
-	// public int reloadTime ; //Время на перезарядку
-	public int velocityX;
-	public int velocityY;
+	public final int RELOAD_TIME = 1000; //Время на перезарядку
+	public  int velocityX;
+	public  int velocityY;
 	private int healthPoints;
-	private Date strartReloadingTime;
-	// private boolean reloadStatus;
+	private Date reloadTime;
+	private boolean reloadStatus;
+	public  int bulletVelocity;
 
-	Weapon weapon1 = new DefaultGun();
-	public Weapon currentWeapon;
 	public Otryad() {
 		setX(100);
 		setY(50);
+		bulletVelocity = 24;
 		velocityX = 0;
 		velocityY = 0;
-		setHealthPoints(MAX_HEALTH_POINTS);
-		// setReloadStatus(false);
-		strartReloadingTime = new Date();
-		currentWeapon = weapon1;
-		// reloadTime =currentWeapon.getTimeToReload();
-
+		setHealthPoints(MAX_HEALTH_POINTS);		
+		setReloadStatus(false);
+		reloadTime = new Date();				
 	}
+	
 
-	public int getBulletVelocity() {
-		return weapon1.bulletVelocity;
-	}
 	public Rectangle getRect() {
-		return new Rectangle(getX() - img.getWidth(null) / 2, getY()
-				- img.getHeight(null) / 2, img.getWidth(null) / 2,
-				img.getHeight(null) / 2);
+		return new Rectangle(getX()-img.getWidth(null)/2, getY()-img.getHeight(null)/2, img.getWidth(null)/2, img.getHeight(null)/2);
 	}
 
+	
 	public void run() {
 
 		try {
@@ -139,6 +131,8 @@ public class Otryad extends Detachment implements Runnable {
 	public void keyReleased(KeyEvent e) {
 		int key = e.getKeyCode();
 
+ 
+
 		if (key == KeyEvent.VK_RIGHT || key == KeyEvent.VK_LEFT
 				|| key == KeyEvent.VK_D || key == KeyEvent.VK_A) {
 			velocityX = 0;
@@ -151,65 +145,42 @@ public class Otryad extends Detachment implements Runnable {
 		}
 
 	}
-
-	public void drawAllofPlayer(Graphics g) {
+	
+	
+	
+	public void drawAllofPlayer(Graphics g)
+	{
 		// draw player
-		g.drawImage(img, getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2, null);
-
-		// draw.player.helth
-		g.setColor(Color.GREEN);
-		g.drawRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 12, BAR_WIDTH, 5);
-		g.fillRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 12, getHealthPoints() / 2, 5);
-		// draw reload
-		drawReloadBar(g, currentWeapon.getTimeToReload());
-	}
-
-	public void drawReloadBar(Graphics g, int maxTime) {
-		Date current = new Date();
-
-		int needToReload = (int) (maxTime - (current.getTime() - getstartReloadingTime()
-				.getTime()));
-
-<<<<<<< .mine
-		if (needToReload < 0)
-			needToReload = 0;
-		if (needToReload > maxTime)
-			needToReload = maxTime;
-		g.setColor(Color.BLUE);
-		g.fillRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 16, needToReload * BAR_WIDTH
-						/ maxTime, 2);
-=======
-		if (needToReload < 0)
-			needToReload = 0;
-		if (needToReload > maxTime)
-			needToReload = maxTime;
-
-
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
-	}
-
-
-=======
-		g.fillRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 14, needToReload * BAR_WIDTH
-						/ maxTime, 1);
->>>>>>> .theirs
-
-<<<<<<< .mine
-
-
-=======
-	}
-
->>>>>>> .theirs
+				g.drawImage(img, getX() - img.getWidth(null) / 2, getY()
+						- img.getHeight(null) / 2, null);
+				g.drawRect(getX()-img.getWidth(null)/2,	getY()-img.getHeight(null)/2,
+						img.getWidth(null),	img.getHeight(null));
+				
+				int radius = img.getWidth(null) / 2;
+				g.drawOval(getX()- img.getWidth(null) / 4, getY(), radius, radius);
+				
+	// draw.player.helth
+				g.setColor(Color.GREEN);
+				g.drawRect(getX() - img.getWidth(null) / 2,
+						getY() - img.getHeight(null) / 2 - 12, 50, 5);
+				g.fillRect(getX() - img.getWidth(null) / 2,
+						getY() - img.getHeight(null) / 2 - 12,
+						getHealthPoints() / 2, 5);
+	//draw reload
+				Date current = new Date();
+				int readyToFight =(int) (RELOAD_TIME -(current.getTime() -getReloadTime().getTime()))/20;
+				if (readyToFight<0) readyToFight=0;
+				if (readyToFight>50) readyToFight=50;
+				
+				g.fillRect(getX() - img.getWidth(null) / 2,
+						getY() - img.getHeight(null) / 2 - 14,readyToFight , 1);
+				}
+	
+	
+	
+	
+	
+	
 	public int getX() {
 		return x;
 
@@ -225,27 +196,39 @@ public class Otryad extends Detachment implements Runnable {
 	}
 
 	public void setHealthPoints(int healthPoints) {
-		if (healthPoints > MAX_HEALTH_POINTS)
-			healthPoints = MAX_HEALTH_POINTS;
-		if (healthPoints < 0)
-			healthPoints = 0;
+		if (healthPoints>MAX_HEALTH_POINTS) healthPoints =MAX_HEALTH_POINTS;
+		if(healthPoints<0) healthPoints =0;
 		this.healthPoints = healthPoints;
 	}
+
 
 	public void setX(int x) {
 		this.x = x;
 	}
 
+
 	public void setY(int y) {
 		this.y = y;
 	}
 
-	public Date getstartReloadingTime() {
-		return strartReloadingTime;
+
+	public Date getReloadTime() {
+		return reloadTime;
 	}
 
-	public void setstartReloadingTime(Date reloadTime) {
-		this.strartReloadingTime = reloadTime;
+
+	public void setReloadTime(Date reloadTime) {
+		this.reloadTime = reloadTime;
+	}
+
+
+	public boolean isReloadStatus() {
+		return reloadStatus;
+	}
+
+
+	public void setReloadStatus(boolean reloadStatus) {
+		this.reloadStatus = reloadStatus;
 	}
 
 }

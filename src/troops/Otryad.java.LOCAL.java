@@ -173,7 +173,6 @@ public class Otryad extends Detachment implements Runnable {
 		int needToReload = (int) (maxTime - (current.getTime() - getstartReloadingTime()
 				.getTime()));
 
-<<<<<<< .mine
 		if (needToReload < 0)
 			needToReload = 0;
 		if (needToReload > maxTime)
@@ -182,34 +181,9 @@ public class Otryad extends Detachment implements Runnable {
 		g.fillRect(getX() - img.getWidth(null) / 2,
 				getY() - img.getHeight(null) / 2 - 16, needToReload * BAR_WIDTH
 						/ maxTime, 2);
-=======
-		if (needToReload < 0)
-			needToReload = 0;
-		if (needToReload > maxTime)
-			needToReload = maxTime;
 
-
-
-
->>>>>>> .theirs
-
-<<<<<<< .mine
 	}
 
-
-=======
-		g.fillRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 14, needToReload * BAR_WIDTH
-						/ maxTime, 1);
->>>>>>> .theirs
-
-<<<<<<< .mine
-
-
-=======
-	}
-
->>>>>>> .theirs
 	public int getX() {
 		return x;
 

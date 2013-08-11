@@ -21,17 +21,10 @@ import troops.Otryad;
 
 public class Map extends JPanel implements ActionListener {
 
-<<<<<<< .mine
 	public int mapWidth = 1024;
 	public int mapHeight = 768;
 
 	private static final long serialVersionUID = 1L;
-=======
-	public int  mapWidth=1024;
-	public int mapHeight= 768;
-	
-	private static final long serialVersionUID = 1L;
->>>>>>> .theirs
 	Timer mainTimer = new Timer(20, this);
 	Image img = new ImageIcon("res/defaultmap.jpg").getImage();
 
@@ -53,34 +46,11 @@ public class Map extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		g = (Graphics2D) g;
-<<<<<<< .mine
-
-
-=======
-		g.drawImage(img, 0, 0, null);
-		g.drawRect(0, 0, mapWidth, mapHeight);
->>>>>>> .theirs
 
 		drawLand(g);// отрисовываем карту
 		p.drawAllofPlayer(g);// Отрисовываем наш отряд
 
-<<<<<<< .mine
 		enemy1.draw(g);// рисуем врагов
-
-
-
-
-
-
-=======
-		g.drawImage(enemy1.img, enemy1.getX(), enemy1.getY(), null);
-		g.drawRect(enemy1.getX(), enemy1.getY(), enemy1.img.getWidth(null),
-				enemy1.img.getHeight(null));
-		g.setColor(Color.RED);
-		g.drawRect(enemy1.getX(), enemy1.getY() - 12, 50, 5);
-		g.fillRect(enemy1.getX(), enemy1.getY() - 12,
-				(int) (enemy1.getHealthPoints() / 2), 5);
->>>>>>> .theirs
 
 		bulletsList.draw(g);
 		InfoLayer.drawAllInfoLayers(g);
@@ -88,13 +58,8 @@ public class Map extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< .mine
 		p.move(mapHeight - 100, 50, mapWidth - 50, 50);
 		enemy1.move(mapHeight - 100, 50, mapWidth - 50, 50);
-=======
-		p.move(mapHeight-100, 50, mapWidth-50, 50);
-		enemy1.move(mapHeight-100, 50, mapWidth-50, 50);
->>>>>>> .theirs
 		bulletsList.move();
 		checkCollision();
 
@@ -161,21 +126,12 @@ public class Map extends JPanel implements ActionListener {
 						p.getBulletVelocity(), 1, 1);
 
 				Date current = new Date();
-<<<<<<< .mine
 				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon
 						.getTimeToReload()) {
 					p.currentWeapon.setReadytoFire(true);
 					p.setstartReloadingTime(new Date());// выставляем время
 														// начала
-=======
-				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon.getTimeToReload()) {
-					p.currentWeapon.setReadytoFire(true);
-					p.setstartReloadingTime(new Date());// выставляем время начала
-
-
->>>>>>> .theirs
 				}
-<<<<<<< .mine
 
 				if (!p.currentWeapon.isReadytoFire()) {
 					bulletsList.addShot(bullet);
@@ -184,16 +140,6 @@ public class Map extends JPanel implements ActionListener {
 
 					// перезарядки
 
-=======
-
-				if (!p.currentWeapon.isReadytoFire()) {
-					bulletsList.addShot(bullet);
-					p.currentWeapon.setReadytoFire(false);// выстрелили и перезаряжаем
-					
-												// перезарядки
-
-
->>>>>>> .theirs
 				}
 
 			}

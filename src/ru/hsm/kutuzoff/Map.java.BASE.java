@@ -10,10 +10,14 @@ import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.ImageObserver;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.Random;
 
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -21,17 +25,6 @@ import troops.Otryad;
 
 public class Map extends JPanel implements ActionListener {
 
-<<<<<<< .mine
-	public int mapWidth = 1024;
-	public int mapHeight = 768;
-
-	private static final long serialVersionUID = 1L;
-=======
-	public int  mapWidth=1024;
-	public int mapHeight= 768;
-	
-	private static final long serialVersionUID = 1L;
->>>>>>> .theirs
 	Timer mainTimer = new Timer(20, this);
 	Image img = new ImageIcon("res/defaultmap.jpg").getImage();
 
@@ -45,7 +38,6 @@ public class Map extends JPanel implements ActionListener {
 		Thread enemyThread = new Thread(enemy1);
 		otryadThread.start();
 		enemyThread.start();
-
 		addKeyListener(new MyKeyAdapter());
 		addMouseListener(new MyMouseAdapter());
 		setFocusable(true);
@@ -53,58 +45,29 @@ public class Map extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		g = (Graphics2D) g;
-<<<<<<< .mine
-
-
-=======
 		g.drawImage(img, 0, 0, null);
-		g.drawRect(0, 0, mapWidth, mapHeight);
->>>>>>> .theirs
+		g.drawRect(0, 0, 1000, 1000);
 
-		drawLand(g);// отрисовываем карту
-		p.drawAllofPlayer(g);// Отрисовываем наш отряд
+		p.drawAllofPlayer(g);
 
-<<<<<<< .mine
-		enemy1.draw(g);// рисуем врагов
-
-
-
-
-
-
-=======
 		g.drawImage(enemy1.img, enemy1.getX(), enemy1.getY(), null);
-		g.drawRect(enemy1.getX(), enemy1.getY(), enemy1.img.getWidth(null),
-				enemy1.img.getHeight(null));
 		g.setColor(Color.RED);
 		g.drawRect(enemy1.getX(), enemy1.getY() - 12, 50, 5);
 		g.fillRect(enemy1.getX(), enemy1.getY() - 12,
 				(int) (enemy1.getHealthPoints() / 2), 5);
->>>>>>> .theirs
-
 		bulletsList.draw(g);
-		InfoLayer.drawAllInfoLayers(g);
+
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-<<<<<<< .mine
-		p.move(mapHeight - 100, 50, mapWidth - 50, 50);
-		enemy1.move(mapHeight - 100, 50, mapWidth - 50, 50);
-=======
-		p.move(mapHeight-100, 50, mapWidth-50, 50);
-		enemy1.move(mapHeight-100, 50, mapWidth-50, 50);
->>>>>>> .theirs
+		p.move(900, 50, 1000, 50);
+		enemy1.move(900, 50, 1000, 50);
 		bulletsList.move();
 		checkCollision();
-
+		System.out.println(bulletsList.bulls.size());
 		repaint();
 
-	}
-
-	public void drawLand(Graphics g) {
-		g.drawImage(img, 0, 0, null); // background image
-		g.drawRect(0, 0, mapWidth, mapHeight);// current map limits
 	}
 
 	public void checkCollision() {
@@ -115,24 +78,28 @@ public class Map extends JPanel implements ActionListener {
 			if (pulya.getRect().intersects(p.getRect())) {
 				System.out.println("Игрок получил попадание");
 				p.setHealthPoints(p.getHealthPoints() - pulya.getDamage());
-				i.remove();
+				 i.remove();
 			}
 			if (pulya.getRect().intersects(enemy1.getRect())) {
 				System.out.println("Противник получил попадание");
 				enemy1.setHealthPoints(enemy1.getHealthPoints()
 						- pulya.getDamage());
-				i.remove();
+				 i.remove();
 			}
 
 		}
 
 	}
 
+	
 	private class MyMouseAdapter extends MouseAdapter {
 
 		public void mouseClicked(MouseEvent e) {
 
 			if (e.getButton() == MouseEvent.BUTTON1) {
+				
+				System.out.println("mouse" + e.getButton());
+
 				int x = e.getX();
 				int y = e.getY();
 				int realPX;
@@ -154,54 +121,36 @@ public class Map extends JPanel implements ActionListener {
 						realPX = p.getX() - p.img.getWidth(null) / 2 - 5;
 						realPy = p.getY() - p.img.getWidth(null) / 2 - 5;
 					}
-				}
 
+				}
+				
 				Direction dir = new Direction(x, y, realPX, realPy);
-				Shot bullet = new Shot(realPX, realPy, dir,
-						p.getBulletVelocity(), 1, 1);
+				Shot bullet = new Shot(realPX, realPy, dir, p.bulletVelocity, 1, 1);
 
 				Date current = new Date();
-<<<<<<< .mine
-				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon
-						.getTimeToReload()) {
-					p.currentWeapon.setReadytoFire(true);
-					p.setstartReloadingTime(new Date());// выставляем время
-														// начала
-=======
-				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon.getTimeToReload()) {
-					p.currentWeapon.setReadytoFire(true);
-					p.setstartReloadingTime(new Date());// выставляем время начала
-
-
->>>>>>> .theirs
+				if( current.getTime() -p.getReloadTime().getTime() > p.RELOAD_TIME )
+				{
+					p.setReloadStatus(false);
 				}
-<<<<<<< .mine
-
-				if (!p.currentWeapon.isReadytoFire()) {
-					bulletsList.addShot(bullet);
-					p.currentWeapon.setReadytoFire(false);// выстрелили и
-															// перезаряжаем
-
-					// перезарядки
-
-=======
-
-				if (!p.currentWeapon.isReadytoFire()) {
-					bulletsList.addShot(bullet);
-					p.currentWeapon.setReadytoFire(false);// выстрелили и перезаряжаем
+				
+				if(!p.isReloadStatus())
+				{
+				bulletsList.addShot(bullet);
+				p.setReloadStatus(true);// выстрелили и перезаряжаем
+				p.setReloadTime(new Date());//выставляем время начала перезарядки
+				
+				}
+				
 					
-												// перезарядки
-
-
->>>>>>> .theirs
-				}
-
+				
+				
 			}
 
 		}
 
 	}
 
+	
 	private class MyKeyAdapter extends KeyAdapter {
 
 		public void keyPressed(KeyEvent e) {
