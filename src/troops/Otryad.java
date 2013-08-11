@@ -177,10 +177,10 @@ public class Otryad extends Detachment implements Runnable {
 			needToReload = 0;
 		if (needToReload > maxTime)
 			needToReload = maxTime;
-
+		g.setColor(Color.BLUE);
 		g.fillRect(getX() - img.getWidth(null) / 2,
-				getY() - img.getHeight(null) / 2 - 14, needToReload * BAR_WIDTH
-						/ maxTime, 1);
+				getY() - img.getHeight(null) / 2 - 16, needToReload * BAR_WIDTH
+						/ maxTime, 2);
 
 	}
 

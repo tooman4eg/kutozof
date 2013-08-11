@@ -21,9 +21,9 @@ import troops.Otryad;
 
 public class Map extends JPanel implements ActionListener {
 
-	public int  mapWidth=1024;
-	public int mapHeight= 768;
-	
+	public int mapWidth = 1024;
+	public int mapHeight = 768;
+
 	private static final long serialVersionUID = 1L;
 	Timer mainTimer = new Timer(20, this);
 	Image img = new ImageIcon("res/defaultmap.jpg").getImage();
@@ -38,6 +38,7 @@ public class Map extends JPanel implements ActionListener {
 		Thread enemyThread = new Thread(enemy1);
 		otryadThread.start();
 		enemyThread.start();
+
 		addKeyListener(new MyKeyAdapter());
 		addMouseListener(new MyMouseAdapter());
 		setFocusable(true);
@@ -45,32 +46,30 @@ public class Map extends JPanel implements ActionListener {
 
 	public void paint(Graphics g) {
 		g = (Graphics2D) g;
-		g.drawImage(img, 0, 0, null);
-		g.drawRect(0, 0, mapWidth, mapHeight);
 
-		p.drawAllofPlayer(g);
+		drawLand(g);// отрисовываем карту
+		p.drawAllofPlayer(g);// Отрисовываем наш отряд
 
-		g.drawImage(enemy1.img, enemy1.getX(), enemy1.getY(), null);
-		g.drawRect(enemy1.getX(), enemy1.getY(), enemy1.img.getWidth(null),
-				enemy1.img.getHeight(null));
-		g.setColor(Color.RED);
-		g.drawRect(enemy1.getX(), enemy1.getY() - 12, 50, 5);
-		g.fillRect(enemy1.getX(), enemy1.getY() - 12,
-				(int) (enemy1.getHealthPoints() / 2), 5);
+		enemy1.draw(g);// рисуем врагов
 
 		bulletsList.draw(g);
-
+		InfoLayer.drawAllInfoLayers(g);
 	}
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		p.move(mapHeight-100, 50, mapWidth-50, 50);
-		enemy1.move(mapHeight-100, 50, mapWidth-50, 50);
+		p.move(mapHeight - 100, 50, mapWidth - 50, 50);
+		enemy1.move(mapHeight - 100, 50, mapWidth - 50, 50);
 		bulletsList.move();
 		checkCollision();
 
 		repaint();
 
+	}
+
+	public void drawLand(Graphics g) {
+		g.drawImage(img, 0, 0, null); // background image
+		g.drawRect(0, 0, mapWidth, mapHeight);// current map limits
 	}
 
 	public void checkCollision() {
@@ -127,16 +126,19 @@ public class Map extends JPanel implements ActionListener {
 						p.getBulletVelocity(), 1, 1);
 
 				Date current = new Date();
-				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon.getTimeToReload()) {
+				if (current.getTime() - p.getstartReloadingTime().getTime() > p.currentWeapon
+						.getTimeToReload()) {
 					p.currentWeapon.setReadytoFire(true);
-					p.setstartReloadingTime(new Date());// выставляем время начала
+					p.setstartReloadingTime(new Date());// выставляем время
+														// начала
 				}
 
 				if (!p.currentWeapon.isReadytoFire()) {
 					bulletsList.addShot(bullet);
-					p.currentWeapon.setReadytoFire(false);// выстрелили и перезаряжаем
-					
-												// перезарядки
+					p.currentWeapon.setReadytoFire(false);// выстрелили и
+															// перезаряжаем
+
+					// перезарядки
 
 				}
 

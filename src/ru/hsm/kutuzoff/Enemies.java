@@ -1,5 +1,7 @@
 package ru.hsm.kutuzoff;
 
+import java.awt.Color;
+import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Rectangle;
 import java.util.Date;
@@ -86,6 +88,15 @@ public class Enemies extends Otryad {
 	private void reloadTimer() {
 		startTime = new Date();
 		endTime = new Date(startTime.getTime() + changeDirectionDelay);
+	}
+	
+	public void draw(Graphics g)
+	{
+		g.drawImage(img, getX(), getY(), null);
+		g.drawRect(getX(), getY(), img.getWidth(null),	img.getHeight(null));
+		g.setColor(Color.RED);
+		g.drawRect(getX(), getY() - 12, 50, 5);
+		g.fillRect(getX(), getY() - 12,	(int) (getHealthPoints() / 2), 5);
 	}
 
 }
